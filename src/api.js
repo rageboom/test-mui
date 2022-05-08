@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-export const GET = async (url, config, sFunc, fFunc) => {
+const baseConfig = {
+  baseURL: window.location.origin.replace(window.location.port, 9000),
+};
+const GET = async (url, config = {}, sFunc, fFunc) => {
   try {
-    const response = await axios.get(url, config);
+    const response = await axios.get(url, Object.assign(baseConfig, config));
     if (typeof sFunc === 'function') {
       sFunc(response);
     }
@@ -15,7 +18,7 @@ export const GET = async (url, config, sFunc, fFunc) => {
   }
 };
 
-export const POST = async (url, config, sFunc, fFunc) => {
+const POST = async (url, config, sFunc, fFunc) => {
   try {
     const response = await axios.post(url, config);
     if (typeof sFunc === 'function') {
@@ -29,7 +32,7 @@ export const POST = async (url, config, sFunc, fFunc) => {
     return e;
   }
 };
-export const PUT = async (url, config, sFunc, fFunc) => {
+const PUT = async (url, config, sFunc, fFunc) => {
   try {
     const response = await axios.put(url, config);
     if (typeof sFunc === 'function') {
@@ -44,7 +47,7 @@ export const PUT = async (url, config, sFunc, fFunc) => {
   }
 };
 
-export const DELETE = async (url, config, sFunc, fFunc) => {
+const DELETE = async (url, config, sFunc, fFunc) => {
   try {
     const response = await axios.delete(url, config);
     if (typeof sFunc === 'function') {
@@ -58,3 +61,11 @@ export const DELETE = async (url, config, sFunc, fFunc) => {
     return e;
   }
 };
+
+const api = {
+  get: GET,
+  post: POST,
+  put: PUT,
+  delete: DELETE,
+};
+export default api;
